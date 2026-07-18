@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
     <title>Kyymc Studio - Minecraft Bedrock</title>
     <style>
+        :root {
+            color-scheme: light;
+        }
+        html {
+            color-scheme: light;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -26,9 +34,15 @@
             }
         }
 
+        /* ================= ATMOSFER BACKGROUND ================= */
         body {
-            background-color: #0b0c10;
-            background-image: radial-gradient(circle at top right, rgba(0, 242, 254, 0.12), transparent 350px);
+            background: 
+                linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
+                url('https://i.ibb.co/m5zCCKcP/df7a15c685536e3b08143ed6bacb80fc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -37,15 +51,25 @@
             animation: cinematicSpawn 1.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
+        /* Lock scroll latar belakang saat modal aktif */
+        body.no-scroll {
+            overflow: hidden !important;
+            height: 100vh;
+        }
+
+        /* Wrapper utama transparan */
         .wrapper {
-            width: 100%;
-            max-width: 480px;
+            width: min(480px, 100%);
             min-height: 100vh;
-            background-color: #0d0e12;
+            background: rgba(10, 12, 18, .35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding-bottom: 60px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
+            border-left: 1px solid rgba(255, 255, 255, 0.04);
+            border-right: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         /* ================= NAVIGATION BAR ================= */
@@ -54,18 +78,26 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 20px;
-            background: rgba(13, 14, 18, 0.8);
+            background: rgba(10, 12, 18, 0.5);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .nav-left {
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.2s;
+        }
+
+        .nav-left:active {
+            opacity: 0.7;
         }
 
         .nav-logo {
@@ -85,7 +117,6 @@
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 12px;
         }
 
         .btn-nav-download {
@@ -104,40 +135,9 @@
             transform: scale(0.95);
         }
 
-        .menu-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #16181f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .menu-icon span {
-            display: block;
-            width: 16px;
-            height: 2px;
-            background: #ffffff;
-            position: relative;
-        }
-
-        .menu-icon span::before, .menu-icon span::after {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 2px;
-            background: #ffffff;
-            left: 0;
-        }
-        .menu-icon span::before { top: -6px; }
-        .menu-icon span::after { bottom: -6px; }
-
-
         /* ================= HERO SECTION ================= */
         .hero {
-            padding: 40px 24px 24px 24px;
+            padding: 40px 24px 12px 24px;
             text-align: left;
         }
 
@@ -149,27 +149,35 @@
             letter-spacing: -0.5px;
         }
 
+        .hero h1 span.highlight-blue {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
         .hero p {
             font-size: 0.95rem;
-            color: #94a3b8;
+            color: #e2e8f0;
             line-height: 1.6;
-            margin-bottom: 20px;
             font-weight: 400;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        .badge-networking {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(0, 242, 254, 0.1);
-            color: #00f2fe;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid rgba(0, 242, 254, 0.2);
+        /* ================= KODE GARIS PEMBATAS ANTI-DARKMODE ================= */
+        .divider {
+            width: calc(100% - 48px);
+            height: 2px;
+            margin: 30px auto;
+            background: #ffffff !important;
+            opacity: 1 !important;
+            filter: none !important;
+            mix-blend-mode: normal !important;
+            box-shadow: none !important;
+            border: none !important;
         }
-
 
         /* ================= CONTENT MAIN ================= */
         .main-content {
@@ -182,146 +190,252 @@
             gap: 16px;
         }
 
+        /* Kartu Utama Cyan */
         .secondary-card {
-            background: #14161d;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            padding: 20px;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            border-radius: 24px;
+            padding: 24px;
             text-decoration: none;
-            color: #ffffff;
+            color: #0b0c10;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 18px;
+            text-align: center;
+            gap: 14px;
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.2);
             transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer;
+            border: none;
         }
 
         .secondary-card:hover, .secondary-card:active {
-            background: #181b24;
-            border-color: rgba(0, 242, 254, 0.4);
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 12px 24px rgba(0, 242, 254, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 242, 254, 0.4);
+            filter: brightness(1.05);
         }
 
         .badge-circle {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(0, 242, 254, 0.08);
-            border: 1px solid rgba(0, 242, 254, 0.2);
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(11, 12, 16, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            transition: all 0.25s ease;
-        }
-
-        .secondary-card:hover .badge-circle {
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            border-color: transparent;
-        }
-
-        .secondary-card:hover .badge-circle svg {
-            fill: #0b0c10;
-        }
-        
-        .secondary-card:hover .custom-text-logo {
-            color: #0b0c10;
         }
 
         .badge-circle svg {
-            width: 22px;
-            height: 22px;
-            fill: #00f2fe;
-            transition: fill 0.25s ease;
-        }
-
-        .custom-text-logo {
-            color: #00f2fe;
-            font-weight: 900;
-            font-size: 1.2rem;
-            font-family: 'Arial Black', sans-serif;
-            transition: color 0.25s ease;
+            width: 28px;
+            height: 28px;
+            fill: #0b0c10;
         }
 
         .card-text {
             display: flex;
             flex-direction: column;
-            gap: 3px;
-            flex-grow: 1;
+            gap: 6px;
         }
 
         .card-text h3 {
-            font-size: 1.08rem;
+            font-size: 1.35rem;
             font-weight: 700;
+            letter-spacing: -0.3px;
         }
 
         .card-text p {
-            font-size: 0.85rem;
-            color: #94a3b8;
+            font-size: 0.88rem;
+            color: rgba(11, 12, 16, 0.85);
             line-height: 1.4;
         }
 
-        /* ================= STYLE KHAS FOLDER FAKELINK ================= */
-        .folder-card {
-            border-color: rgba(234, 179, 8, 0.3); /* Warna Kuning ala Folder */
+        /* Kartu Sub-Client */
+        .sub-card {
+            background: rgba(20, 22, 29, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 24px;
+            flex-direction: row;
+            text-align: left;
+            justify-content: flex-start;
+            gap: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            color: #ffffff;
+            backdrop-filter: blur(5px);
         }
-        .folder-card .badge-circle {
-            background: rgba(234, 179, 8, 0.1);
-            border-color: rgba(234, 179, 8, 0.3);
-        }
-        .folder-card .badge-circle svg {
-            fill: #eab308;
-        }
-        .folder-card:hover {
-            border-color: #eab308;
-            box-shadow: 0 12px 24px rgba(234, 179, 8, 0.1);
-        }
-        .folder-card:hover .badge-circle {
-            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
-        }
-
-        .arrow-icon {
-            width: 20px;
-            height: 20px;
-            fill: #94a3b8;
-            transition: transform 0.3s ease;
-        }
-        .folder-card.open .arrow-icon {
-            transform: rotate(180deg);
-            fill: #eab308;
+        
+        .sub-card:hover {
+            background: rgba(24, 27, 36, 0.85);
+            border-color: rgba(0, 242, 254, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0, 242, 254, 0.2);
         }
 
-        /* Container Sub-Menu Client */
-        .folder-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        /* Indikator Angka Lingkaran */
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: #0b0c10;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 242, 254, 0.4);
+        }
+
+        .sub-card .card-text h3 {
+            font-size: 1.15rem;
+        }
+
+        .sub-card .card-text p {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+
+        /* ================= FOOTER ================= */
+        .footer-container {
+            text-align: center;
+            margin-top: 50px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding-left: 16px;
-            border-left: 2px dashed rgba(234, 179, 8, 0.2);
-            margin-left: 22px;
+            gap: 6px;
+            padding: 0 10px;
         }
 
-        .folder-content.show {
-            max-height: 500px;
-            margin-top: 4px;
-            margin-bottom: 8px;
-        }
-
-        .sub-card {
-            background: #101218;
-            padding: 16px;
-            border-radius: 16px;
+        .life-quote {
+            font-size: 0.78rem;
+            color: #cbd5e1;
+            font-style: italic;
+            line-height: 1.4;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
         }
         
         footer {
-            text-align: center;
-            margin-top: 40px;
             font-size: 0.8rem;
-            color: #4b5563;
+            color: #94a3b8;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+        }
+
+        /* ================= STYLE POPUP PROFILE MOCK TIKTOK ================= */
+        .profile-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 7, 12, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 20px;
+        }
+
+        .profile-box {
+            width: 350px;
+            max-width: 100%;
+            background: #11141c;
+            border-radius: 28px;
+            padding: 28px 22px;
+            text-align: center;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            animation: modalFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes modalFadeIn {
+            0% { opacity: 0; transform: scale(0.9) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .profile-avatar {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #00f2fe;
+            margin-bottom: 12px;
+            box-shadow: 0 0 16px rgba(0, 242, 254, 0.3);
+        }
+
+        .profile-box h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .profile-box .profile-usn {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        /* Grid Statistik Akun TikTok */
+        .tiktok-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 6px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-count {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .profile-box p.profile-desc {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            text-align: left;
+            background: rgba(0, 242, 254, 0.05);
+            padding: 12px 16px;
+            border-radius: 14px;
+            border-left: 3px solid #00f2fe;
+        }
+
+        .btn-close-profile {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-close-profile:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-close-profile:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
@@ -331,26 +445,23 @@
         
         <!-- ================= NAVBAR ================= -->
         <nav class="navbar">
-            <div class="nav-left">
+            <div class="nav-left" onclick="openProfile()">
                 <img class="nav-logo" src="https://i.ibb.co.com/8WZjWtY/20260718-191815.png" alt="Kyymc">
                 <span class="nav-title">Kyymc</span>
             </div>
             <div class="nav-right">
                 <a href="https://whatsapp.com/channel/0029VbBiXuyAInPkEli3M10A" target="_blank" class="btn-nav-download">Saluran</a>
-                <div class="menu-icon">
-                    <span></span>
-                </div>
             </div>
         </nav>
 
         <!-- ================= HERO TEXT ================= -->
         <header class="hero">
-            <h1>Welcome to Kyymc Studio.</h1>
+            <h1>Welcome to <span class="highlight-blue">Kyymc</span> Studio.</h1>
             <p>Kumpulan addon, texture pack, skin, dan resource Minecraft Bedrock dalam satu tempat.</p>
-            <div class="badge-networking">
-                <span>🌐</span> Kyymc Workspace
-            </div>
         </header>
+
+        <!-- ================= KUSTOM GARIS PEMBATAS ================= -->
+        <div class="divider"></div>
 
         <!-- ================= CONTENT LINKS ================= -->
         <main class="main-content">
@@ -395,53 +506,54 @@
                     </div>
                 </a>
 
-                <!-- 4. Minecraft Clients Folder -->
-                <div class="secondary-card folder-card" id="folderBtn">
-                    <div class="badge-circle">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
-                        </svg>
-                    </div>
+                <!-- ================= MINECRAFT CLIENT LAUNCHERS ================= -->
+                <a href="https://flarial.xyz/download/" target="_blank" class="secondary-card sub-card">
+                    <div class="step-number">1</div>
                     <div class="card-text">
-                        <h3>Minecraft Clients</h3>
+                        <h3>Flarial Client</h3>
                         <p>Buka untuk melihat daftar utility mod & launcher MCPE terbaik.</p>
                     </div>
-                    <svg class="arrow-icon" viewBox="0 0 24 24">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </div>
+                </a>
+                
+                <a href="https://atlasclient.net" target="_blank" class="secondary-card sub-card">
+                    <div class="step-number">2</div>
+                    <div class="card-text">
+                        <h3>Atlas Client V2</h3>
+                        <p>Buka untuk melihat daftar utility mod & launcher MCPE terbaik.</p>
+                    </div>
+                </a>
 
-                <div class="folder-content" id="folderContent">
-                    <a href="https://atlasclient.net" target="_blank" class="secondary-card sub-card">
-                        <div class="badge-circle"><span class="custom-text-logo">A</span></div>
-                        <div class="card-text"><h3>Atlas Client V2</h3></div>
-                    </a>
-                    
-                    <!-- LINK FLARIAL SUDAH DIPERBAIKI KE SITUS RESMI -->
-                    <a href="https://flarial.xyz/download/" target="_blank" class="secondary-card sub-card">
-                        <div class="badge-circle"><span class="custom-text-logo">F</span></div>
-                        <div class="card-text"><h3>Flarial Client</h3></div>
-                    </a>
-
-                    <!-- LINK LEVI LAUNCHER DIPERBAIKI -->
-                    <a href="https://github.com/LiteLDev/LeviLaunchroid" target="_blank" class="secondary-card sub-card">
-                        <div class="badge-circle"><span class="custom-text-logo">L</span></div>
-                        <div class="card-text"><h3>Levi Launcher</h3></div>
-                    </a>
-                </div>
+                <a href="https://github.com/LiteLDev/LeviLaunchroid" target="_blank" class="secondary-card sub-card">
+                    <div class="step-number">3</div>
+                    <div class="card-text">
+                        <h3>Levi Launcher</h3>
+                        <p>Buka untuk melihat daftar utility mod & launcher MCPE terbaik.</p>
+                    </div>
+                </a>
             </div>
             
-            <footer>© 2026 Kyymc Studio. All rights reserved.</footer>
+            <!-- ================= FOOTER ================= -->
+            <div class="footer-container">
+                <p class="life-quote">"Hidup itu mirip Minecraft; untuk membangun sesuatu yang indah, terkadang kita harus melewati malam yang penuh rintangan."</p>
+                <footer>© 2026 Kyymc Studio. All rights reserved.</footer>
+            </div>
         </main>
     </div>
 
-    <script>
-        const folderBtn = document.getElementById('folderBtn');
-        const folderContent = document.getElementById('folderContent');
-        folderBtn.addEventListener('click', () => {
-            folderBtn.classList.toggle('open');
-            folderContent.classList.toggle('show');
-        });
-    </script>
-</body>
-</html>
+    <!-- ================= CODE POPUP PROFILE TIKTOK DATA ================= -->
+    <div id="profileModal" class="profile-modal" onclick="closeProfileOutside(event)">
+        <div class="profile-box">
+            <img src="https://i.ibb.co.com/8WZjWtY/20260718-191815.png" alt="Kyymc Avatar" class="profile-avatar">
+            <h2>kyymc</h2>
+            <div class="profile-usn">@kyymc_</div>
+            
+            <!-- Statistik Real Sesuai Gambar Asli -->
+            <div class="tiktok-stats">
+                <div class="stat-item">
+                    <span class="stat-count">155</span>
+                    <span class="stat-label">Mengikuti</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-count">34,5 rb</span>
+                    <span class="stat-label">Pengikut</span>
+      
