@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyymc Studio - Minecraft Bedrock</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0b0c10;
+            background-image: radial-gradient(circle at top right, rgba(0, 242, 254, 0.12), transparent 350px);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            background-color: #0d0e12;
+            padding-bottom: 60px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ================= NAVIGATION BAR ================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: rgba(13, 14, 18, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+        }
+
+        .nav-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-nav-download {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: #0b0c10;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 242, 254, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn-nav-download:active {
+            transform: scale(0.95);
+        }
+
+        .menu-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #16181f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            display: block;
+            width: 16px;
+            height: 2px;
+            background: #ffffff;
+            position: relative;
+        }
+
+        .menu-icon span::before, .menu-icon span::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 2px;
+            background: #ffffff;
+            left: 0;
+        }
+        .menu-icon span::before { top: -6px; }
+        .menu-icon span::after { bottom: -6px; }
+
+
+        /* ================= HERO SECTION ================= */
+        .hero {
+            padding: 40px 24px 24px 24px;
+            text-align: left;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .badge-networking {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 242, 254, 0.1);
+            color: #00f2fe;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+
+        /* ================= CONTENT MAIN ================= */
+        .main-content {
+            padding: 0 24px;
+        }
+
+        .list-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .secondary-card {
+            background: #14161d;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .secondary-card:hover {
+            background: #181b24;
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.06);
+        }
+
+        .badge-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.25s ease;
+        }
+
+        .secondary-card:hover .badge-circle {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            border-color: transparent;
+        }
+
+        .secondary-card:hover .badge-circle svg {
+            fill: #0b0c10;
+        }
+        
+        .secondary-card:hover .atlas-text-logo {
+            color: #0b0c10;
+        }
+
+        .badge-circle svg {
+            width: 22px;
+            height: 22px;
+            fill: #00f2fe;
+            transition: fill 0.25s ease;
+        }
+
+        .atlas-text-logo {
+            color: #00f2fe;
+            font-weight: 900;
+            font-size: 1.2rem;
+            font-family: 'Arial Black', sans-serif;
+            transition: color 0.25s ease;
+        }
+
+        .card-text {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .card-text h3 {
+            font-size: 1.08rem;
+            font-weight: 700;
+        }
+
+        .card-text p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        
+        <!-- ================= NAVBAR ================= -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <img class="nav-logo" src="https://i.ibb.co.com/rGnV9ZRs/20260718-191815.png" alt="Kyymc">
+                <span class="nav-title">Kyymc</span>
+            </div>
+            <div class="nav-right">
+                <a href="https://whatsapp.com/channel/0029VbBiXuyAInPkEli3M10A" target="_blank" class="btn-nav-download">Saluran</a>
+                <div class="menu-icon">
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ================= HERO TEXT ================= -->
+        <header class="hero">
+            <h1>Welcome to Kyymc Studio.</h1>
+            <p>Kumpulan addon, texture pack, skin, dan resource Minecraft Bedrock dalam satu tempat.</p>
+            <div class="badge-networking">
+                <span>🌐</span> Kyymc Workspace
+            </div>
+        </header>
+
+        <!-- ================= CONTENT LINKS ================= -->
+        <main class="main-content">
+            <div class="list-wrapper">
+                
+                <!-- 1. WhatsApp Card -->
+                <a href="https://whatsapp.com/channel/0029VbBiXuyAInPkEli3M10A" target="_blank" class="secondary-card">
+                    <div class="badge-circle">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397 0 11.948 0c3.179.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.239 3.482 8.42-.003 6.597-5.339 11.946-11.89 11.946-.003 0-.005 0-.008 0-2.001-.001-3.972-.51-5.713-1.479L0 24zm6.59-4.846c1.66.986 3.288 1.479 4.925 1.48 5.405 0 9.802-4.372 9.804-9.752.001-2.605-1.011-5.055-2.852-6.898C16.683 2.143 14.236 1.13 11.63 1.13c-5.41 0-9.81 4.373-9.813 9.753-.001 1.745.474 3.426 1.378 4.912l-.996 3.637 3.733-.973zm11.367-4.654c-.305-.153-1.805-.891-2.085-.992-.28-.102-.484-.153-.688.153-.204.305-.789.992-.967 1.196-.178.203-.356.229-.661.076-.305-.153-1.288-.475-2.454-1.516-.908-.81-1.52-1.812-1.698-2.118-.178-.305-.019-.47.133-.621.138-.137.305-.356.458-.534.153-.178.204-.305.305-.509.102-.204.051-.382-.026-.534-.076-.153-.688-1.66-.943-2.277-.248-.598-.501-.517-.688-.527-.178-.009-.382-.01-.586-.01-.204 0-.534.076-.814.382-.28.305-1.07 1.043-1.07 2.543 0 1.5 1.095 2.95 1.247 3.153.153.204 2.156 3.292 5.223 4.617.729.316 1.3.504 1.743.645.732.233 1.399.2 1.925.121.587-.089 1.805-.738 2.06-1.45.255-.713.255-1.323.178-1.45-.076-.127-.28-.204-.586-.356z"/>
+                        </svg>
+                    </div>
+                    <div class="card-text">
+                        <h3>Kyymc Saluran</h3>
+                        <p>WhatsApp Channel resmi tempat share texture, skins, dan addon gratis terupdate.</p>
+                    </div>
+                </a>
+
+                <!-- 2. TikTok Card -->
+                <a href="https://tiktok.com/@kyymc" target="_blank" class="secondary-card">
+                    <div class="badge-circle">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.63 4.16 1.02 1.12 2.45 1.84 3.93 2.03v3.91c-1.65-.02-3.26-.56-4.6-1.52-.18-.13-.35-.27-.51-.41v5.61c.01 2.3-.82 4.56-2.38 6.21-1.74 1.87-4.27 2.87-6.8 2.65-2.73-.2-5.22-1.79-6.61-4.16-1.49-2.5-1.61-5.69-.32-8.29 1.23-2.52 3.69-4.3 6.47-4.66.27-.03.54-.05.82-.05v3.98c-1.12.1-2.18.66-2.87 1.56-.75.97-.98 2.27-.61 3.46.36 1.16 1.27 2.08 2.41 2.44 1.23.4 2.61.13 3.6-.68.79-.64 1.25-1.62 1.26-2.64L12.52.02z"/>
+                        </svg>
+                    </div>
+                    <div class="card-text">
+                        <h3>Official TikTok</h3>
+                        <p>Pantau update video pendek seputar trik showcase Addon Minecraft Bedrock terbaru.</p>
+                    </div>
+                </a>
+
+                <!-- 3. Atlas Client Card -->
+                <a href="https://atlasclient.net" target="_blank" class="secondary-card">
+                    <div class="badge-circle">
+                        <span class="atlas-text-logo">A</span>
+                    </div>
+                    <div class="card-text">
+                        <h3>Atlas Client</h3>
+                        <p>Download client utility mod terbaik untuk optimasi performa bermain Minecraft lo.</p>
+                    </div>
+                </a>
+
+                <!-- 4. SociaBuzz Card -->
+                <a href="https://sociabuzz.com/kyymc_/tribe?_ref=linkbio" target="_blank" class="secondary-card">
+                    <div class="badge-circle">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 2c-1.2 0-2.4.5-3.3 1.4L12 4.1l-.7-.7C10.4 2.5 9.2 2 8 2 5.3 2 3.2 4.1 3.2 6.8c0 3.6 4.3 7.6 8.8 11.6 4.5-4 8.8-8 8.8-11.6C20.8 4.1 18.7 2 16 2zm-4 13.6c-3.4-3.1-6.8-6.4-6.8-8.8 0-1.5 1.2-2.8 2.8-2.8.7 0 1.4.3 1.9.8l2.1 2.1 2.1-2.1c.5-.5 1.2-.8 1.9-.8 1.6 0 2.8 1.3 2.8 2.8 0 2.4-3.4 5.7-6.8 8.8zM12 20h9v2H3v-2h9z"/>
+                        </svg>
+                    </div>
+                    <div class="card-text">
+                        <h3>SociaBuzz Saweran</h3>
+                        <p>Dukung eksistensi konten kreator Kyymc lewat donasi sukarela di sini.</p>
+                    </div>
+                </a>
+
+            </div>
+        </main>
+
+    </div>
+
+</body>
+</html>
