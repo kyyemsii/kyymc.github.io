@@ -12,6 +12,20 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
+        /* ================= ELEGAN CINEMATIC SPAWN ANIMATION ================= */
+        @keyframes cinematicSpawn {
+            0% {
+                opacity: 0;
+                transform: translateY(35px);
+                filter: blur(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
         body {
             background-color: #0b0c10;
             background-image: radial-gradient(circle at top right, rgba(0, 242, 254, 0.12), transparent 350px);
@@ -20,6 +34,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            animation: cinematicSpawn 1.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
         .wrapper {
@@ -177,14 +192,15 @@
             display: flex;
             align-items: center;
             gap: 18px;
-            transition: all 0.25s ease;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
         }
 
-        .secondary-card:hover {
+        .secondary-card:hover, .secondary-card:active {
             background: #181b24;
-            border-color: rgba(0, 242, 254, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.06);
+            border-color: rgba(0, 242, 254, 0.4);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 24px rgba(0, 242, 254, 0.1);
         }
 
         .badge-circle {
@@ -209,7 +225,7 @@
             fill: #0b0c10;
         }
         
-        .secondary-card:hover .atlas-text-logo {
+        .secondary-card:hover .custom-text-logo {
             color: #0b0c10;
         }
 
@@ -220,7 +236,7 @@
             transition: fill 0.25s ease;
         }
 
-        .atlas-text-logo {
+        .custom-text-logo {
             color: #00f2fe;
             font-weight: 900;
             font-size: 1.2rem;
@@ -232,6 +248,7 @@
             display: flex;
             flex-direction: column;
             gap: 3px;
+            flex-grow: 1;
         }
 
         .card-text h3 {
@@ -244,16 +261,78 @@
             color: #94a3b8;
             line-height: 1.4;
         }
+
+        /* ================= STYLE KHAS FOLDER FAKELINK ================= */
+        .folder-card {
+            border-color: rgba(234, 179, 8, 0.3); /* Warna Kuning ala Folder */
+        }
+        .folder-card .badge-circle {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: rgba(234, 179, 8, 0.3);
+        }
+        .folder-card .badge-circle svg {
+            fill: #eab308;
+        }
+        .folder-card:hover {
+            border-color: #eab308;
+            box-shadow: 0 12px 24px rgba(234, 179, 8, 0.1);
+        }
+        .folder-card:hover .badge-circle {
+            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+        }
+
+        .arrow-icon {
+            width: 20px;
+            height: 20px;
+            fill: #94a3b8;
+            transition: transform 0.3s ease;
+        }
+        .folder-card.open .arrow-icon {
+            transform: rotate(180deg);
+            fill: #eab308;
+        }
+
+        /* Container Sub-Menu Client */
+        .folder-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-left: 16px;
+            border-left: 2px dashed rgba(234, 179, 8, 0.2);
+            margin-left: 22px;
+        }
+
+        .folder-content.show {
+            max-height: 500px;
+            margin-top: 4px;
+            margin-bottom: 8px;
+        }
+
+        .sub-card {
+            background: #101218;
+            padding: 16px;
+            border-radius: 16px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #4b5563;
+        }
     </style>
 </head>
 <body>
 
     <div class="wrapper">
         
-        <!-- ================= NAVBAR ================= -->
+        <!-- ================= NAVBAR (PROFILE PICTURE UPDATED) ================= -->
         <nav class="navbar">
             <div class="nav-left">
-                <img class="nav-logo" src="https://i.ibb.co.com/rGnV9ZRs/20260718-191815.png" alt="Kyymc">
+                <img class="nav-logo" src="https://i.ibb.co.com/8WZjWtY/20260718-191815.png" alt="Kyymc">
                 <span class="nav-title">Kyymc</span>
             </div>
             <div class="nav-right">
@@ -291,7 +370,7 @@
                 </a>
 
                 <!-- 2. TikTok Card -->
-                <a href="https://tiktok.com/@kyymc" target="_blank" class="secondary-card">
+                <a href="https://tiktok.com/@kyymc_" target="_blank" class="secondary-card">
                     <div class="badge-circle">
                         <svg viewBox="0 0 24 24">
                             <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.63 4.16 1.02 1.12 2.45 1.84 3.93 2.03v3.91c-1.65-.02-3.26-.56-4.6-1.52-.18-.13-.35-.27-.51-.41v5.61c.01 2.3-.82 4.56-2.38 6.21-1.74 1.87-4.27 2.87-6.8 2.65-2.73-.2-5.22-1.79-6.61-4.16-1.49-2.5-1.61-5.69-.32-8.29 1.23-2.52 3.69-4.3 6.47-4.66.27-.03.54-.05.82-.05v3.98c-1.12.1-2.18.66-2.87 1.56-.75.97-.98 2.27-.61 3.46.36 1.16 1.27 2.08 2.41 2.44 1.23.4 2.61.13 3.6-.68.79-.64 1.25-1.62 1.26-2.64L12.52.02z"/>
@@ -303,18 +382,7 @@
                     </div>
                 </a>
 
-                <!-- 3. Atlas Client Card -->
-                <a href="https://atlasclient.net" target="_blank" class="secondary-card">
-                    <div class="badge-circle">
-                        <span class="atlas-text-logo">A</span>
-                    </div>
-                    <div class="card-text">
-                        <h3>Atlas Client</h3>
-                        <p>Download client utility mod terbaik untuk optimasi performa bermain Minecraft lo.</p>
-                    </div>
-                </a>
-
-                <!-- 4. SociaBuzz Card -->
+                <!-- 3. SociaBuzz Card -->
                 <a href="https://sociabuzz.com/kyymc_/tribe?_ref=linkbio" target="_blank" class="secondary-card">
                     <div class="badge-circle">
                         <svg viewBox="0 0 24 24">
@@ -327,10 +395,79 @@
                     </div>
                 </a>
 
+                <!-- ================= 4. MINECRAFT CLIENTS FOLDER (DI PINDAH KE BAWAH) ================= -->
+                <div class="secondary-card folder-card" id="folderBtn">
+                    <div class="badge-circle">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+                        </svg>
+                    </div>
+                    <div class="card-text">
+                        <h3>Minecraft Clients</h3>
+                        <p>Buka untuk melihat daftar utility mod & launcher MCPE terbaik.</p>
+                    </div>
+                    <svg class="arrow-icon" viewBox="0 0 24 24">
+                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                    </svg>
+                </div>
+
+                <!-- ISI KONTEN FOLDER MINECRAFT CLIENTS -->
+                <div class="folder-content" id="folderContent">
+                    
+                    <!-- Sub-Card 1: Atlas Client V2 -->
+                    <a href="https://atlasclient.net" target="_blank" class="secondary-card sub-card">
+                        <div class="badge-circle">
+                            <span class="custom-text-logo">A</span>
+                        </div>
+                        <div class="card-text">
+                            <h3>Atlas Client V2</h3>
+                            <p>Download client utility mod versi terbaru untuk optimasi performa maksimal.</p>
+                        </div>
+                    </a>
+
+                    <!-- Sub-Card 2: Flarial Client -->
+                    <a href="https://flarial.net" target="_blank" class="secondary-card sub-card">
+                        <div class="badge-circle">
+                            <span class="custom-text-logo">F</span>
+                        </div>
+                        <div class="card-text">
+                            <h3>Flarial Client</h3>
+                            <p>Optimalkan FPS tembus batas dan rasakan modifikasi gameplay yang super smooth.</p>
+                        </div>
+                    </a>
+
+                    <!-- Sub-Card 3: Levi Launcher -->
+                    <a href="#" target="_blank" class="secondary-card sub-card">
+                        <div class="badge-circle">
+                            <span class="custom-text-logo">L</span>
+                        </div>
+                        <div class="card-text">
+                            <h3>Levi Launcher</h3>
+                            <p>Custom launcher alternatif terbaik dengan segudang fitur kustomisasi visual.</p>
+                        </div>
+                    </a>
+
+                </div>
+                <!-- ================= END OF FOLDER SECTION ================= -->
+
             </div>
+            
+            <footer>© 2026 Kyymc Studio. All rights reserved.</footer>
         </main>
 
     </div>
 
+    <!-- JAVASCRIPT LOGIC UNTUK BUKA FOLDER -->
+    <script>
+        const folderBtn = document.getElementById('folderBtn');
+        const folderContent = document.getElementById('folderContent');
+
+        folderBtn.addEventListener('click', () => {
+            folderBtn.classList.toggle('open');
+            folderContent.classList.toggle('show');
+        });
+    </script>
+
 </body>
 </html>
+
